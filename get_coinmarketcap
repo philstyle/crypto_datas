@@ -24,9 +24,9 @@ done < ${TDS}
 echo "</table></body></html>" >> ${HTML}
 echo `date` >> ${HTML}
 
-cp ${HTML} ./
 git fetch
 git reset --hard origin/master
+cp ${HTML} ./
 git add COINMARKETCAP.html
 git commit -m "Coinmarketcap update"
 git push origin master
