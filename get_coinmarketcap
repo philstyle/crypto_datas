@@ -1,0 +1,31 @@
+#!/bin/bash
+
+OUTFILE=/tmp/COINMARKETCAP
+INTERESTING=/tmp/INTERESTING_COINMARKETCAP
+HTML=/tmp/COINMARKETCAP.html
+TDS=/tmp/COINMARKETCAP_tds
+
+curl --silent https://coinmarketcap.com/currencies/views/filter-non-mineable/ > ${OUTFILE}
+
+HEADER=`cat ${OUTFILE} | html2text -nobs -width 200 | grep "^#" | grep Circulating | sed "s/Market Cap//" | sed "s/Name /Name/" | sed "s/Price          /Price/" | sed "s/Volume/  Volume/" | sed "s/%/      %/"` 
+
+cat ${OUTFILE} | html2text -nobs -width 200 | grep -vi "donate" | egrep -i "ethereum|ethereum-classic|digibyte|ubiq|expanse|musicoin" > ${INTERESTING}
+
+cat ${OUTFILE} | grep sparkline | egrep -i "ethereum|ethereum-classic|digibyte|ubiq|expanse|musicoin" > ${TDS}
+
+echo "<html><body><table>" > ${HTML}
+echo "<tr><td colspan=2><pre>${HEADER}</pre></td></tr>" >> ${HTML}
+while read ROW; do
+ CURRENCY=`echo ${ROW} | awk -F'/' '{print $3}'`
+ IMG=`echo ${ROW} | awk -F'charts">' '{print $2}'`
+ cat ${INTERESTING} | grep -i ${CURRENCY} | sed "s+\[sparkline\]+</pre></td><td>${IMG}+" | sed 's+</a>++' | sed 's+^+<tr><td><pre>+' >> ${HTML}
+done < ${TDS}
+
+echo "</table></body></html>" >> ${HTML}
+echo `date` >> ${HTML}
+
+cp ${HTML} ./
+git reset --hard origin/master
+git add COINMARKETCAP.html
+git commit -m "Coinmarketcap update"
+git push origin master
