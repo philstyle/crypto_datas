@@ -33,9 +33,12 @@ while read ROW; do
  cat ${INTERESTING} | grep -i ${CURRENCY} | sed "s+\[sparkline\]+</pre></td><td>${IMG}+" | sed 's+</a>++' | sed 's+^+<tr><td><pre>+' >> ${HTML}
 done < ${TDS}
 
-echo "</table></body></html>" >> ${HTML}
+#echo "</table></body></html>" >> ${HTML}
+echo "</table><br><hr><pre>" >> ${HTML}
+curl --silent https://raw.githubusercontent.com/philstyle/mining_stats/master/README.md >> ${HTML}
+echo "</pre>" >> ${HTML}
 echo `date` >> ${HTML}
-
+echo "</body></html>" >> ${HTML}
 git fetch
 git reset --hard origin/master
 cp ${HTML} ./
