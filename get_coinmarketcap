@@ -25,6 +25,7 @@ echo "</table></body></html>" >> ${HTML}
 echo `date` >> ${HTML}
 
 cp ${HTML} ./
+git fetch
 git reset --hard origin/master
 git add COINMARKETCAP.html
 git commit -m "Coinmarketcap update"
