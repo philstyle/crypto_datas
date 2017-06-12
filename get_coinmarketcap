@@ -13,7 +13,19 @@ cat ${OUTFILE} | html2text -nobs -width 200 | grep -vi "donate" | egrep -i "ethe
 
 cat ${OUTFILE} | grep sparkline | egrep -i "ethereum|ethereum-classic|digibyte|ubiq|expanse|musicoin" > ${TDS}
 
-echo "<html><body><table>" > ${HTML}
+echo "<html><head>" > ${HTML}
+echo "<style>" >> ${HTML}
+echo "table {" >> ${HTML}
+echo "    border-collapse: collapse;" >> ${HTML}
+echo "    border: 1px solid black;" >> ${HTML}
+#echo "    height: 100%;" >> ${HTML}
+#echo "    width: 100%;" >> ${HTML}
+echo "}" >> ${HTML}
+echo "tr {" >> ${HTML}
+echo " border: 1px solid black;" >> ${HTML}
+echo "}" >> ${HTML}
+echo "</style></head>" >> ${HTML}
+echo "<table>" >> ${HTML}
 echo "<tr><td colspan=2><pre>${HEADER}</pre></td></tr>" >> ${HTML}
 while read ROW; do
  CURRENCY=`echo ${ROW} | awk -F'/' '{print $3}'`
