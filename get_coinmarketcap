@@ -5,7 +5,7 @@ INTERESTING=/tmp/INTERESTING_COINMARKETCAP
 HTML=/tmp/COINMARKETCAP.html
 TDS=/tmp/COINMARKETCAP_tds
 
-curl --silent https://coinmarketcap.com/currencies/views/filter-non-mineable/ > ${OUTFILE}
+curl --silent https://coinmarketcap.com/coins/views/filter-non-mineable/ > ${OUTFILE}
 
 HEADER=`cat ${OUTFILE} | html2text -nobs -width 200 | grep "^#" | grep Circulating | sed "s/Market Cap//" | sed "s/Name /Name/" | sed "s/Price          /Price/" | sed "s/Volume/  Volume/" | sed "s/%/      %/"` 
 
