@@ -9,9 +9,9 @@ curl --silent https://coinmarketcap.com/coins/views/filter-non-mineable/ > ${OUT
 
 HEADER=`cat ${OUTFILE} | html2text -nobs -width 200 | grep "^#" | grep Circulating | sed "s/Market Cap//" | sed "s/Name /Name/" | sed "s/Price          /Price/" | sed "s/Volume/  Volume/" | sed "s/%/      %/"` 
 
-cat ${OUTFILE} | html2text -nobs -width 200 | grep -vi "donate" | egrep -i "ethereum|ethereum-classic|digibyte|ubiq|expanse|musicoin|bitcoin|zcash" | grep -iv "bitcoindark" > ${INTERESTING}
+cat ${OUTFILE} | html2text -nobs -width 200 | grep -vi "donate" | egrep -i "ethereum|ethereum-classic|digibyte|ubiq|expanse|musicoin|bitcoin|zcash" | grep -iv "bitcoindark" | grep -iv "bitcoin_cash" | grep -iv "bitcoin_gold" > ${INTERESTING}
 
-cat ${OUTFILE} | grep sparkline | egrep -i "ethereum|ethereum-classic|digibyte|ubiq|expanse|musicoin|bitcoin|zcash" | grep -iv "bitcoindark" > ${TDS}
+cat ${OUTFILE} | grep sparkline | egrep -i "ethereum|ethereum-classic|digibyte|ubiq|expanse|musicoin|bitcoin|zcash" | grep -iv "bitcoindark" | grep -iv "bitcoin_cash" | grep -iv "bitcoin_gold" > ${TDS}
 
 echo "<html><head>" > ${HTML}
 echo "<style>" >> ${HTML}
